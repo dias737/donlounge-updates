@@ -1,0 +1,187 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+    <meta name="theme-color" content="#102721" />
+    <meta name="description" content="Gestão simples de estacionamento e lava-rápido." />
+    <title>Pátio Fácil — Estacionamento & Lava-rápido</title>
+    <link rel="icon" href="./favicon.svg" type="image/svg+xml" />
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body>
+    <svg class="svg-sprite" aria-hidden="true">
+      <symbol id="i-grid" viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7" rx="2"/><rect x="14" y="3" width="7" height="7" rx="2"/><rect x="3" y="14" width="7" height="7" rx="2"/><rect x="14" y="14" width="7" height="7" rx="2"/></symbol>
+      <symbol id="i-drop" viewBox="0 0 24 24"><path d="M12 2.5S5.5 9.6 5.5 14.9a6.5 6.5 0 0 0 13 0C18.5 9.6 12 2.5 12 2.5Z"/><path d="M9.2 16.2a3 3 0 0 0 2.8 1.9"/></symbol>
+      <symbol id="i-wallet" viewBox="0 0 24 24"><path d="M4 6.5h14a2 2 0 0 1 2 2v10H5a2 2 0 0 1-2-2v-11a2 2 0 0 1 2-2h11"/><path d="M15 11h6v4h-6a2 2 0 0 1 0-4Z"/></symbol>
+      <symbol id="i-history" viewBox="0 0 24 24"><path d="M3 12a9 9 0 1 0 3-6.7L3 8"/><path d="M3 3v5h5M12 7v5l3 2"/></symbol>
+      <symbol id="i-settings" viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.9l.1.1-2.8 2.8-.1-.1a1.7 1.7 0 0 0-1.9-.3 1.7 1.7 0 0 0-1 1.6v.2h-4V21a1.7 1.7 0 0 0-1-1.6 1.7 1.7 0 0 0-1.9.3l-.1.1L4.2 17l.1-.1a1.7 1.7 0 0 0 .3-1.9A1.7 1.7 0 0 0 3 14H2.8v-4H3a1.7 1.7 0 0 0 1.6-1 1.7 1.7 0 0 0-.3-1.9L4.2 7 7 4.2l.1.1a1.7 1.7 0 0 0 1.9.3A1.7 1.7 0 0 0 10 3V2.8h4V3a1.7 1.7 0 0 0 1 1.6 1.7 1.7 0 0 0 1.9-.3l.1-.1L19.8 7l-.1.1a1.7 1.7 0 0 0-.3 1.9 1.7 1.7 0 0 0 1.6 1h.2v4H21a1.7 1.7 0 0 0-1.6 1Z"/></symbol>
+      <symbol id="i-plus" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></symbol>
+      <symbol id="i-search" viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="m20 20-4-4"/></symbol>
+      <symbol id="i-car" viewBox="0 0 24 24"><path d="m5 11 1.7-4.2A2 2 0 0 1 8.6 5h6.8a2 2 0 0 1 1.9 1.8L19 11"/><path d="M4 11h16a1 1 0 0 1 1 1v5H3v-5a1 1 0 0 1 1-1ZM5 17v2M19 17v2M7 14h.1M17 14h.1"/></symbol>
+      <symbol id="i-clock" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></symbol>
+      <symbol id="i-arrow" viewBox="0 0 24 24"><path d="M5 12h14M14 7l5 5-5 5"/></symbol>
+      <symbol id="i-check" viewBox="0 0 24 24"><path d="m5 12 4 4L19 6"/></symbol>
+      <symbol id="i-x" viewBox="0 0 24 24"><path d="m6 6 12 12M18 6 6 18"/></symbol>
+      <symbol id="i-more" viewBox="0 0 24 24"><circle cx="5" cy="12" r="1"/><circle cx="12" cy="12" r="1"/><circle cx="19" cy="12" r="1"/></symbol>
+      <symbol id="i-alert" viewBox="0 0 24 24"><path d="M10.3 4.1 2.6 18a2 2 0 0 0 1.7 3h15.4a2 2 0 0 0 1.7-3L13.7 4.1a2 2 0 0 0-3.4 0Z"/><path d="M12 9v4M12 17h.01"/></symbol>
+      <symbol id="i-download" viewBox="0 0 24 24"><path d="M12 3v12M7 10l5 5 5-5M5 21h14"/></symbol>
+    </svg>
+
+    <div class="app-shell">
+      <aside class="sidebar">
+        <div class="brand">
+          <div class="brand-mark"><svg><use href="#i-car"></use></svg></div>
+          <div><strong>Pátio Fácil</strong><span>Gestão inteligente</span></div>
+        </div>
+        <nav class="nav-list" aria-label="Navegação principal">
+          <button class="nav-item active" data-page="patio"><svg><use href="#i-grid"></use></svg><span>Pátio</span></button>
+          <button class="nav-item" data-page="lavagem"><svg><use href="#i-drop"></use></svg><span>Lava-rápido</span><b id="wash-nav-count" class="nav-count">0</b></button>
+          <button class="nav-item" data-page="caixa"><svg><use href="#i-wallet"></use></svg><span>Caixa</span></button>
+          <button class="nav-item" data-page="historico"><svg><use href="#i-history"></use></svg><span>Histórico</span></button>
+          <button class="nav-item" data-page="configuracoes"><svg><use href="#i-settings"></use></svg><span>Configurações</span></button>
+        </nav>
+        <div class="sidebar-footer">
+          <div class="status-dot"></div>
+          <div><strong>Sistema online</strong><span>Dados salvos neste aparelho</span></div>
+        </div>
+      </aside>
+
+      <main class="main-content">
+        <header class="topbar">
+          <div>
+            <p class="eyebrow" id="today-label"></p>
+            <h1 id="page-title">Visão do pátio</h1>
+          </div>
+          <div class="topbar-actions">
+            <label class="global-search">
+              <svg><use href="#i-search"></use></svg>
+              <input id="global-search" type="search" placeholder="Buscar placa, cliente..." autocomplete="off" />
+              <kbd>⌘ K</kbd>
+            </label>
+            <div class="operator">
+              <div class="avatar">AM</div>
+              <div><strong>Atendimento</strong><span>Operador</span></div>
+            </div>
+            <button class="btn btn-primary entry-trigger"><svg><use href="#i-plus"></use></svg>Nova entrada</button>
+          </div>
+        </header>
+
+        <section id="page-patio" class="page active" aria-labelledby="page-title">
+          <div class="hero-panel">
+            <div class="hero-copy">
+              <span class="live-pill"><i></i> Operação em tempo real</span>
+              <h2>Seu pátio, <em>sem complicação.</em></h2>
+              <p>Acompanhe as vagas, lavagens e recebimentos do dia em um só lugar.</p>
+            </div>
+            <div class="occupancy-dial" aria-label="Ocupação do estacionamento">
+              <svg viewBox="0 0 120 120"><circle class="dial-track" cx="60" cy="60" r="48"/><circle id="dial-progress" class="dial-progress" cx="60" cy="60" r="48"/></svg>
+              <div><strong id="dial-percent">0%</strong><span>ocupado</span></div>
+            </div>
+          </div>
+
+          <div class="metrics-grid">
+            <article class="metric-card mint"><div class="metric-icon"><svg><use href="#i-car"></use></svg></div><div><span>No pátio</span><strong id="metric-active">0</strong><small id="metric-capacity">de 0 vagas</small></div></article>
+            <article class="metric-card blue"><div class="metric-icon"><svg><use href="#i-grid"></use></svg></div><div><span>Vagas livres</span><strong id="metric-free">0</strong><small>disponíveis agora</small></div></article>
+            <article class="metric-card purple"><div class="metric-icon"><svg><use href="#i-drop"></use></svg></div><div><span>Em lavagem</span><strong id="metric-wash">0</strong><small id="metric-waiting">0 aguardando</small></div></article>
+            <article class="metric-card orange"><div class="metric-icon"><svg><use href="#i-wallet"></use></svg></div><div><span>Receita hoje</span><strong id="metric-revenue">R$ 0</strong><small id="metric-sales">0 recebimentos</small></div></article>
+          </div>
+
+          <section class="content-card vehicles-card">
+            <div class="section-head">
+              <div><h3>Veículos no pátio</h3><p>Movimentação atual do estacionamento</p></div>
+              <div class="filter-tabs" role="tablist">
+                <button class="filter-tab active" data-filter="all">Todos <b id="filter-all-count">0</b></button>
+                <button class="filter-tab" data-filter="parking">Estacionados</button>
+                <button class="filter-tab" data-filter="washing">Em lavagem</button>
+                <button class="filter-tab" data-filter="ready">Prontos</button>
+              </div>
+            </div>
+            <div id="vehicle-list" class="vehicle-list"></div>
+            <div id="vehicle-empty" class="empty-state" hidden>
+              <div class="empty-icon"><svg><use href="#i-car"></use></svg></div>
+              <h4>Nenhum veículo por aqui</h4>
+              <p>Registre uma nova entrada para começar.</p>
+              <button class="btn btn-primary entry-trigger"><svg><use href="#i-plus"></use></svg>Nova entrada</button>
+            </div>
+          </section>
+        </section>
+
+        <section id="page-lavagem" class="page" aria-labelledby="page-title">
+          <div class="page-intro"><div><span class="kicker">FLUXO DE SERVIÇOS</span><h2>Fila do lava-rápido</h2><p>Mova cada veículo da espera até a entrega.</p></div><button class="btn btn-secondary entry-trigger"><svg><use href="#i-plus"></use></svg>Adicionar veículo</button></div>
+          <div class="wash-mobile-tabs" role="tablist"><button class="active" data-wash-view="waiting">Aguardando</button><button data-wash-view="washing">Lavando</button><button data-wash-view="ready">Prontos</button></div>
+          <div class="kanban-board">
+            <section class="kanban-column" data-column="waiting"><header><div><i class="dot waiting"></i><h3>Aguardando</h3></div><span id="waiting-count">0</span></header><div id="wash-waiting" class="kanban-list"></div></section>
+            <section class="kanban-column" data-column="washing"><header><div><i class="dot washing"></i><h3>Em execução</h3></div><span id="washing-count">0</span></header><div id="wash-washing" class="kanban-list"></div></section>
+            <section class="kanban-column" data-column="ready"><header><div><i class="dot ready"></i><h3>Prontos</h3></div><span id="ready-count">0</span></header><div id="wash-ready" class="kanban-list"></div></section>
+          </div>
+        </section>
+
+        <section id="page-caixa" class="page" aria-labelledby="page-title">
+          <div class="page-intro"><div><span class="kicker">RESUMO FINANCEIRO</span><h2>Caixa do dia</h2><p id="cash-date-label"></p></div><button id="export-cash" class="btn btn-secondary"><svg><use href="#i-download"></use></svg>Exportar CSV</button></div>
+          <div class="cash-highlight">
+            <div><span>Total recebido hoje</span><strong id="cash-total">R$ 0,00</strong><small id="cash-comparison">Operação atual</small></div>
+            <div class="cash-breakdown"><div><span>Estacionamento</span><strong id="cash-parking">R$ 0,00</strong></div><div><span>Lava-rápido</span><strong id="cash-wash">R$ 0,00</strong></div></div>
+          </div>
+          <div class="cash-layout">
+            <section class="content-card"><div class="section-head"><div><h3>Formas de pagamento</h3><p>Distribuição dos recebimentos</p></div></div><div id="payment-breakdown" class="payment-breakdown"></div></section>
+            <section class="content-card"><div class="section-head"><div><h3>Últimos recebimentos</h3><p>Saídas concluídas hoje</p></div></div><div id="cash-transactions" class="transaction-list"></div></section>
+          </div>
+        </section>
+
+        <section id="page-historico" class="page" aria-labelledby="page-title">
+          <div class="page-intro"><div><span class="kicker">REGISTROS</span><h2>Histórico de atendimentos</h2><p>Todas as saídas e pagamentos concluídos.</p></div><button id="export-history" class="btn btn-secondary"><svg><use href="#i-download"></use></svg>Exportar CSV</button></div>
+          <section class="content-card">
+            <div class="history-toolbar"><label><svg><use href="#i-search"></use></svg><input id="history-search" type="search" placeholder="Buscar placa ou cliente" /></label><select id="history-payment"><option value="all">Todos os pagamentos</option><option>PIX</option><option>Dinheiro</option><option>Débito</option><option>Crédito</option></select></div>
+            <div id="history-list" class="history-list"></div>
+          </section>
+        </section>
+
+        <section id="page-configuracoes" class="page" aria-labelledby="page-title">
+          <div class="page-intro"><div><span class="kicker">PREFERÊNCIAS</span><h2>Configurações</h2><p>Personalize o funcionamento do seu estabelecimento.</p></div></div>
+          <form id="settings-form" class="settings-layout">
+            <section class="content-card settings-card"><div class="settings-heading"><div class="settings-icon"><svg><use href="#i-settings"></use></svg></div><div><h3>Estabelecimento</h3><p>Identificação e capacidade do pátio.</p></div></div><div class="form-grid"><label class="field wide"><span>Nome do estabelecimento</span><input name="businessName" required maxlength="50" /></label><label class="field"><span>Total de vagas</span><input name="capacity" type="number" min="1" max="999" required inputmode="numeric" /></label><label class="field"><span>Tolerância (minutos)</span><input name="graceMinutes" type="number" min="0" max="120" required inputmode="numeric" /></label></div></section>
+            <section class="content-card settings-card"><div class="settings-heading"><div class="settings-icon"><svg><use href="#i-wallet"></use></svg></div><div><h3>Tarifas de estacionamento</h3><p>Valores aplicados automaticamente na saída.</p></div></div><div class="form-grid three"><label class="field"><span>Primeira hora</span><div class="money-input"><b>R$</b><input name="firstHour" type="number" min="0" step="0.01" required /></div></label><label class="field"><span>Hora adicional</span><div class="money-input"><b>R$</b><input name="additionalHour" type="number" min="0" step="0.01" required /></div></label><label class="field"><span>Diária máxima</span><div class="money-input"><b>R$</b><input name="dailyMax" type="number" min="0" step="0.01" required /></div></label></div></section>
+            <section class="content-card settings-card"><div class="settings-heading"><div class="settings-icon"><svg><use href="#i-drop"></use></svg></div><div><h3>Serviços do lava-rápido</h3><p>Edite o catálogo exibido nas comandas.</p></div></div><div id="services-settings" class="services-settings"></div><button id="add-service" type="button" class="text-button"><svg><use href="#i-plus"></use></svg>Adicionar serviço</button></section>
+            <div class="settings-actions"><button id="reset-demo" type="button" class="btn btn-danger">Restaurar dados de demonstração</button><button type="submit" class="btn btn-primary"><svg><use href="#i-check"></use></svg>Salvar configurações</button></div>
+          </form>
+        </section>
+      </main>
+
+      <nav class="mobile-nav" aria-label="Navegação móvel">
+        <button class="active" data-page="patio"><svg><use href="#i-grid"></use></svg><span>Pátio</span></button>
+        <button data-page="lavagem"><svg><use href="#i-drop"></use></svg><span>Lavagem</span></button>
+        <button class="mobile-fab entry-trigger" aria-label="Nova entrada"><svg><use href="#i-plus"></use></svg></button>
+        <button data-page="caixa"><svg><use href="#i-wallet"></use></svg><span>Caixa</span></button>
+        <button data-page="historico"><svg><use href="#i-history"></use></svg><span>Histórico</span></button>
+      </nav>
+    </div>
+
+    <dialog id="entry-dialog" class="modal">
+      <form id="entry-form" method="dialog">
+        <div class="modal-head"><div><span class="modal-kicker">NOVA COMANDA</span><h2>Entrada de veículo</h2><p>Preencha o básico. Você pode editar depois.</p></div><button type="button" class="icon-button modal-close" aria-label="Fechar"><svg><use href="#i-x"></use></svg></button></div>
+        <div class="modal-body">
+          <div class="form-grid"><label class="field plate-field"><span>Placa do veículo *</span><input id="entry-plate" name="plate" required maxlength="8" placeholder="ABC1D23" autocomplete="off" /></label><label class="field"><span>Vaga</span><select name="spot" id="entry-spot"></select></label><label class="field"><span>Modelo</span><input name="model" maxlength="30" placeholder="Ex.: Onix" /></label><label class="field"><span>Cor</span><input name="color" maxlength="20" placeholder="Ex.: Branco" /></label><label class="field"><span>Nome do cliente</span><input name="customer" maxlength="50" placeholder="Opcional" /></label><label class="field"><span>Telefone</span><input name="phone" inputmode="tel" maxlength="20" placeholder="(11) 99999-9999" /></label></div>
+          <fieldset class="service-picker"><legend>Deseja adicionar lavagem?</legend><div id="entry-services" class="service-options"></div></fieldset>
+          <label class="field"><span>Observações</span><textarea name="notes" rows="2" maxlength="160" placeholder="Chave, avaria, preferência do cliente..."></textarea></label>
+          <div id="entry-error" class="form-error" role="alert" hidden></div>
+        </div>
+        <div class="modal-actions"><button type="button" class="btn btn-ghost modal-close">Cancelar</button><button type="submit" class="btn btn-primary"><svg><use href="#i-check"></use></svg>Confirmar entrada</button></div>
+      </form>
+    </dialog>
+
+    <dialog id="details-dialog" class="modal details-modal"><div id="details-content"></div></dialog>
+
+    <dialog id="checkout-dialog" class="modal checkout-modal">
+      <form id="checkout-form" method="dialog">
+        <div class="modal-head"><div><span class="modal-kicker">ENCERRAR COMANDA</span><h2>Pagamento e saída</h2><p id="checkout-subtitle"></p></div><button type="button" class="icon-button modal-close" aria-label="Fechar"><svg><use href="#i-x"></use></svg></button></div>
+        <div class="modal-body"><div id="checkout-summary" class="checkout-summary"></div><fieldset class="payment-picker"><legend>Forma de pagamento *</legend><div class="payment-options"><label><input type="radio" name="payment" value="PIX" checked /><span>PIX</span></label><label><input type="radio" name="payment" value="Dinheiro" /><span>Dinheiro</span></label><label><input type="radio" name="payment" value="Débito" /><span>Débito</span></label><label><input type="radio" name="payment" value="Crédito" /><span>Crédito</span></label></div></fieldset></div>
+        <div class="modal-actions"><button type="button" class="btn btn-ghost modal-close">Voltar</button><button type="submit" class="btn btn-primary"><svg><use href="#i-check"></use></svg>Receber e liberar</button></div>
+      </form>
+    </dialog>
+
+    <div id="toast-region" class="toast-region" aria-live="polite"></div>
+    <script src="./app.js"></script>
+  </body>
+</html>
+
